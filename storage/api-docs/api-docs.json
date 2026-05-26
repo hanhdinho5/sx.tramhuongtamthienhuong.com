@@ -1,0 +1,176 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Laravel API Project",
+        "version": "3.0"
+    },
+    "paths": {
+        "/api/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login with email or phone and password",
+                "operationId": "3c02a24963f2ff0d724a5fc52ca71d3a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "login_request": {
+                                        "description": "Email or phone",
+                                        "type": "string",
+                                        "example": "user@example.com"
+                                    },
+                                    "password": {
+                                        "description": "Password",
+                                        "type": "string",
+                                        "example": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Logged in successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "accessToken": {
+                                            "description": "Access token",
+                                            "type": "string"
+                                        },
+                                        "role": {
+                                            "description": "Role of user",
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request, please check email or password"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Register new user",
+                "operationId": "a4926fedd17688057ba7d3442a282d8a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Name of user",
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "email": {
+                                        "description": "Email of user",
+                                        "type": "string",
+                                        "example": "user@example.com"
+                                    },
+                                    "phone": {
+                                        "description": "Phone of user",
+                                        "type": "string",
+                                        "example": "0123456789"
+                                    },
+                                    "password": {
+                                        "description": "Password",
+                                        "type": "string",
+                                        "example": "password"
+                                    },
+                                    "password_confirm": {
+                                        "description": "Confirm password",
+                                        "type": "string",
+                                        "example": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Register success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Message",
+                                            "type": "string",
+                                            "example": "Register success"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Register failed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "description": "Message",
+                                            "type": "string",
+                                            "example": "Register failed"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "description": "Enter JWT token to access this API",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "Auth"
+        }
+    ]
+}
