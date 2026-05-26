@@ -239,7 +239,7 @@ class AdminSoQuyController extends Controller
                 return redirect()->back()->with('error', 'Không tìm thấy sổ quỹ');
             }
 
-            $loai_quy = LoaiQuy::find($soquy->loai_quy_id);;
+            $loai_quy = LoaiQuy::find($soquy->loai_quy_id);
             if ($loai_quy) {
                 if ($soquy->loai == 1) {
                     $loai_quy->tong_tien_quy = $loai_quy->tong_tien_quy - $soquy->so_tien;
@@ -249,7 +249,11 @@ class AdminSoQuyController extends Controller
                     $loai_quy->save();
                 }
             }
-
+            $nguyenLieuTho = NguyenLieuTho::find($soquy->gia_tri_id);
+            if ($nguyenLieuTho) {
+                $nguyenLieuTho->cong_no += $soquy->so_tien;
+                $nguyenLieuTho->save();
+            }
             $soquy->delete();
 
             return redirect()->back()->with('success', 'Đã xoá sổ quỹ thành công');

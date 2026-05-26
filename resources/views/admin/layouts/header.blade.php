@@ -3,6 +3,9 @@
         height: 40px;
         z-index: 100;
     }
+    html {
+    zoom: 0.85;
+}
 </style>
 <header
     class="top-header w-100 d-flex position-fixed top-0 bg-primary text-white justify-content-between align-items-center px-2">

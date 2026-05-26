@@ -140,7 +140,6 @@
                         <col width="10%">
                         <col width="10%">
                         <col width="10%">
-                        <col width="10%">
                         <col width="x">
                     </colgroup>
                     <thead>
@@ -152,7 +151,6 @@
                         <th scope="col">Nhóm thu/chi</th>
                         <th scope="col">Số tiền</th>
                         <th scope="col">Tên quỹ</th>
-                        <th scope="col">Nơi nhận</th>
                         <th scope="col">Đối tượng</th>
                         <th scope="col">Nội dung</th>
                     </tr>
@@ -180,10 +178,17 @@
                             </td>
                             <td>{{ \Carbon\Carbon::parse($data->ngay)->format('d-m-Y') }}</td>
                             <td>{{ $data->ma_phieu }}</td>
-                            <td>@if($data->loai == 0)
-                                    Phiếu Chi
+                            <td>
+                                @if($data->loai == 0)
+                                    <a href="{{ route(
+                                        'api.nha.cung.cap.show',['id'=>
+                                        \App\Models\NguyenLieuTho::find($data->gia_tri_id)?->nha_cung_cap_id]
+                                    ) }}">
+                                        <span class="badge bg-danger">Phiếu Chi</span>
+                                    </a>
+                                    {{-- <a href="{{route('admin.so.quy.payment.detail', $data->id)}}" ><span class="badge bg-danger">Phiếu Chi</span> </   a> --}}
                                 @else
-                                    Phiếu Thu
+                                    <span class="badge bg-success">Phiếu Thu</span>
                                 @endif
                             </td>
                             <td>{{ $data->nhomQuy?->ten_nhom }}</td>
@@ -206,22 +211,7 @@
 
                                 {{ $loai_noi_nhan }}
                             </td>
-                            <td>
-                                @php
-                                    switch ($data->loai_noi_nhan){
-                                        case 'ncc':
-                                            $noi_nhan = \App\Models\NhaCungCaps::where('id', $data->noi_nhan)->first()?->ten;
-                                            break;
-                                        case 'kh':
-                                            $noi_nhan = \App\Models\KhachHang::where('id', $data->noi_nhan)->first()?->ten;
-                                            break;
-                                        default:
-                                            $noi_nhan = \App\Models\User::where('id', $data->noi_nhan)->first()?->full_name;
-                                            break;
-                                    }
-                                @endphp
-                                {{ $noi_nhan }}
-                            </td>
+                            
                             <td>{{ $data->noi_dung }}</td>
                         </tr>
                     @endforeach
@@ -229,7 +219,7 @@
                     <tfoot>
                     <tr>
                         <th scope="col" colspan="5">Tổng:</th>
-                        <th scope="col" colspan="5">{{ parseNumber($datas->sum('so_tien'), 0) }} VND</th>
+                        <th scope="col" colspan="4">{{ parseNumber($datas->sum('so_tien'), 0) }} VND</th>
                     </tr>
                     </tfoot>
                 </table>
